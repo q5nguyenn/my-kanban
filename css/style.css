@@ -1,0 +1,193 @@
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --colors-todo: #4da0fd;
+  --colors-progress: #feb240;
+  --colors-review: #ad5df0;
+  --colors-done: #00cf93;
+  --colors-todo-blur: #4da0fd44;
+  --colors-progress-blur: #feb24033;
+  --colors-review-blur: #ad5df033;
+  --colors-done-blur: #00cf9333;
+  --colors-red: #ff5a83;
+  --radii-borderRadius: 0px;
+}
+.bg-secondary {
+  background-color: #eee !important;
+}
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: var(--colors-review);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.icon i {
+  color: white;
+}
+
+.icon-todo {
+  background-color: var(--colors-todo);
+}
+
+.icon-progress {
+  background-color: var(--colors-progress);
+}
+
+.icon-done {
+  background-color: var(--colors-done);
+}
+
+.icon-edit {
+  background-color: gray;
+}
+
+.icon-close {
+  background-color: var(--colors-red);
+}
+.list > div:last-child {
+  margin-bottom: 0 !important;
+}
+
+.todo-header {
+  background-color: var(--colors-todo-blur) !important;
+  cursor: pointer;
+}
+
+.inprogress-header {
+  background-color: var(--colors-progress-blur) !important;
+  cursor: pointer;
+}
+
+.inreview-header {
+  background-color: var(--colors-review-blur) !important;
+  cursor: pointer;
+}
+
+.done-header {
+  background-color: var(--colors-done-blur) !important;
+  cursor: pointer;
+}
+
+.todo-body > div {
+  border-left: 5px solid var(--colors-todo-blur) !important;
+  /* background-color: var(--colors-todo-blur) !important; */
+}
+
+.inprogress-body > div {
+  border-left: 5px solid var(--colors-progress-blur) !important;
+  /* background-color: var(--colors-progress-blur) !important; */
+}
+
+.inreview-body > div {
+  border-left: 5px solid var(--colors-review-blur) !important;
+  /* background-color: var(--colors-review-blur) !important; */
+}
+
+.done-body > div {
+  border-left: 5px solid var(--colors-done-blur) !important;
+  /* background-color: var(--colors-done-blur) !important; */
+}
+
+.add-work {
+  cursor: pointer;
+}
+
+.todo-header:hover .add-work i {
+  color: var(--colors-todo);
+}
+
+.inprogress-header:hover .add-work i {
+  color: var(--colors-progress);
+}
+
+.inreview-header:hover .add-work i {
+  color: var(--colors-review);
+}
+
+.done-header:hover .add-work i {
+  color: var(--colors-done);
+}
+
+.top-0 {
+  top: 5px !important;
+}
+
+.btn {
+  padding: 5px 10px;
+  border-radius: var(--radii-borderRadius) !important;
+}
+
+.todo-body .icon-todo {
+  display: none;
+}
+
+.inprogress-body .icon-progress {
+  display: none;
+}
+
+.inreview-body .icon-review {
+  display: none;
+}
+
+.done-body .icon-done {
+  display: none;
+}
+
+.rounded {
+  border-radius: var(--radii-borderRadius) !important;
+}
+
+.modal-content {
+  border-radius: var(--radii-borderRadius) !important;
+}
+
+.work-menu {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.todo-body > div:hover .work-menu,
+.inprogress-body > div:hover .work-menu,
+.inreview-body > div:hover .work-menu,
+.done-body > div:hover .work-menu {
+  visibility: visible;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.work-menu .icon {
+  background-color: #aaa;
+}
+
+.icon-todo:hover {
+  background-color: var(--colors-todo);
+}
+
+.icon-progress:hover {
+  background-color: var(--colors-progress);
+}
+
+.icon-review:hover {
+  background-color: var(--colors-review);
+}
+
+.icon-done:hover {
+  background-color: var(--colors-done);
+}
+
+.icon-close:hover {
+  background-color: var(--colors-red);
+}
