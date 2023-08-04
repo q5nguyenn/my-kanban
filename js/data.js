@@ -1,7 +1,7 @@
 import { setItem, getItem } from './utility.js';
-export { works_reset };
+export { tasks_reset };
 
-const works_reset = [
+const tasks_reset = [
   {
     id: 1,
     name: 'Học HTML',
@@ -52,8 +52,20 @@ const works_reset = [
   },
 ];
 
-var works = getItem('works');
+var tasks = getItem('tasks');
 
-if (works == null) {
-  setItem('works', works_reset);
+if (tasks == null) {
+  setItem('tasks', tasks_reset);
 }
+
+const linear_gradient = [
+  'linear-gradient(227deg, rgb(81, 255, 234) 0%, rgb(34, 186, 250) 100%)',
+  'linear-gradient(225deg, rgb(255, 207, 80) 0%, rgb(255, 115, 52) 100%)',
+  'linear-gradient(239deg, rgb(252, 71, 96) 0%, rgb(255, 103, 195) 100%)',
+  'linear-gradient(316deg, rgb(75, 161, 252) 3%, rgb(236, 42, 237) 100%)',
+];
+
+const randomIndex = Math.floor(Math.random() * linear_gradient.length);
+const randomGradient = linear_gradient[randomIndex];
+
+$('body').css('--linear-gradient', randomGradient);

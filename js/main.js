@@ -1,27 +1,37 @@
-import { getItem, generateHtmlString, generateNewId, setItem, pageReload } from './utility.js';
+import {
+  getItem,
+  generateHtmlString,
+  generateNewId,
+  setItem,
+  pageReload,
+  showNewTask,
+  showEditTask,
+  hideTask,
+} from './utility.js';
 
-let works = getItem('works');
+let tasks = getItem('tasks');
 let htmlTodo = '';
 let htmlInProgress = '';
 let htmlInReview = '';
 let htmlDone = '';
+let id = 0;
 let index = 0;
 let status = 'todo';
 let handle = 'add';
-let work = [];
-works.forEach((work) => {
-  switch (work['status']) {
+let task = [];
+tasks.forEach((task) => {
+  switch (task['status']) {
     case 'todo':
-      htmlTodo += generateHtmlString(work);
+      htmlTodo += generateHtmlString(task);
       break;
     case 'inprogress':
-      htmlInProgress += generateHtmlString(work);
+      htmlInProgress += generateHtmlString(task);
       break;
     case 'inreview':
-      htmlInReview += generateHtmlString(work);
+      htmlInReview += generateHtmlString(task);
       break;
     case 'done':
-      htmlDone += generateHtmlString(work);
+      htmlDone += generateHtmlString(task);
       break;
     default:
       break;
@@ -33,33 +43,33 @@ $('.inprogress-body').html(htmlInProgress);
 $('.inreview-body').html(htmlInReview);
 $('.done-body').html(htmlDone);
 
-$('.add-work').click(function (e) {
+$('#handle-task').submit(function (e) {
   e.preventDefault();
-  status = $(this).data('status');
-});
-
-$('#handle-work').submit(function (e) {
-  // e.preventDefault();
   let name = $('#name').val();
   let description = $('#description').val();
-  let works = getItem('works');
+  let tasks = getItem('tasks');
   if (handle == 'add') {
-    let id = generateNewId(works);
-    let work = {
+    id = generateNewId(tasks);
+    task = {
       id: id,
       name: name,
       description: description,
       status: status,
     };
-    works.push(work);
+    tasks.push(task);
+    showNewTask(task);
   } else {
-    works[index]['name'] = name;
-    works[index]['description'] = description;
+    tasks[index]['name'] = name;
+    task['name'] = name;
+    tasks[index]['description'] = description;
+    task['description'] = description;
+    showEditTask(task);
   }
-  setItem('works', works);
+  hideInput();
+  setItem('tasks', tasks);
 });
 
-$('.icon-close').click(function (e) {
+$(document).on('click', '.icon-close', function (e) {
   e.preventDefault();
   Swal.fire({
     title: 'Are you sure?',
@@ -72,27 +82,119 @@ $('.icon-close').click(function (e) {
   }).then((result) => {
     if (result.isConfirmed) {
       let id = $(this).data('id');
-      let works = getItem('works');
-      works = works.filter((element) => {
+      let tasks = getItem('tasks');
+      tasks = tasks.filter((element) => {
         return element['id'] != id;
       });
-      setItem('works', works);
+      setItem('tasks', tasks);
       location.reload();
     }
   });
 });
 
-$('.icon-edit').click(function (e) {
-  let id = $(this).data('id');
-  let works = getItem('works');
-  index = works.findIndex((element) => element['id'] == id);
-  work = works[index];
-  $('#name').val(work['name']);
-  $('#description').val(work['description']);
-  handle = 'edit';
+// Thêm task
+$('.task-header').click(function (e) {
+  e.preventDefault();
+  handle = 'add';
+  status = $(this).data('status');
+  showInput();
 });
 
-$('.task-item').dblclick(function (e) {
-  console.log('double');
-  e.preventDefault();
+// Edit task
+$(document).on('click', '.task-item', function (e) {
+  if (!$(e.target).closest('.task-menu').length) {
+    let tasks = getItem('tasks');
+    id = $(this).data('id');
+    index = tasks.findIndex((element) => element['id'] == id);
+    task = tasks[index];
+    $('#name').val(task['name']);
+    $('#description').val(task['description']);
+    handle = 'edit';
+    showInput();
+  }
+});
+
+// Hàm dùng chung
+function showInput() {
+  if (handle == 'add') {
+    $('input').val('');
+  }
+  $('.modal').fadeIn(300);
+  $('.modal-backdrop').fadeIn(300);
+  $('#name').focus();
+}
+
+function hideInput() {
+  $('.modal').fadeOut(300);
+  $('.modal-backdrop').fadeOut(300);
+}
+
+$('.cancel-input').click(function (e) {
+  hideInput();
+});
+
+$('.modal').click(function (e) {
+  if (!$(e.target).closest('.modal-dialog').length) {
+    hideInput();
+  }
+});
+
+$(document).on('click', '.icon-todo', function (e) {
+  id = $(this).data('id');
+  tasks = getItem('tasks');
+  index = tasks.findIndex((element) => element['id'] == id);
+  task = tasks[index];
+  hideTask(task);
+  id = generateNewId(tasks);
+  tasks[index]['status'] = 'todo';
+  tasks[index]['id'] = id;
+  task['status'] = 'todo';
+  task['id'] = id;
+  showNewTask(task);
+  setItem('tasks', tasks);
+});
+
+$(document).on('click', '.icon-progress', function (e) {
+  id = $(this).data('id');
+  tasks = getItem('tasks');
+  index = tasks.findIndex((element) => element['id'] == id);
+  task = tasks[index];
+  hideTask(task);
+  id = generateNewId(tasks);
+  tasks[index]['status'] = 'inprogress';
+  tasks[index]['id'] = id;
+  task['status'] = 'inprogress';
+  task['id'] = id;
+  showNewTask(task);
+  setItem('tasks', tasks);
+});
+
+$(document).on('click', '.icon-review', function (e) {
+  id = $(this).data('id');
+  tasks = getItem('tasks');
+  index = tasks.findIndex((element) => element['id'] == id);
+  task = tasks[index];
+  hideTask(task);
+  id = generateNewId(tasks);
+  tasks[index]['status'] = 'inreview';
+  tasks[index]['id'] = id;
+  task['status'] = 'inreview';
+  task['id'] = id;
+  showNewTask(task);
+  setItem('tasks', tasks);
+});
+
+$(document).on('click', '.icon-done', function (e) {
+  id = $(this).data('id');
+  tasks = getItem('tasks');
+  index = tasks.findIndex((element) => element['id'] == id);
+  task = tasks[index];
+  hideTask(task);
+  id = generateNewId(tasks);
+  tasks[index]['status'] = 'done';
+  tasks[index]['id'] = id;
+  task['status'] = 'done';
+  task['id'] = id;
+  showNewTask(task);
+  setItem('tasks', tasks);
 });

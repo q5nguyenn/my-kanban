@@ -18,6 +18,7 @@
   --colors-done-blur: #00cf9333;
   --colors-red: #ff5a83;
   --radii-borderRadius: 0px;
+  --linear-gradient: linear-gradient(316deg, #4ba1fc 3%, #ec2aed 100%);
 }
 .bg-secondary {
   background-color: #eee !important;
@@ -101,23 +102,23 @@
   /* background-color: var(--colors-done-blur) !important; */
 }
 
-.add-work {
+.add-task {
   cursor: pointer;
 }
 
-.todo-header:hover .add-work i {
+.todo-header:hover .add-task i {
   color: var(--colors-todo);
 }
 
-.inprogress-header:hover .add-work i {
+.inprogress-header:hover .add-task i {
   color: var(--colors-progress);
 }
 
-.inreview-header:hover .add-work i {
+.inreview-header:hover .add-task i {
   color: var(--colors-review);
 }
 
-.done-header:hover .add-work i {
+.done-header:hover .add-task i {
   color: var(--colors-done);
 }
 
@@ -154,21 +155,21 @@
   border-radius: var(--radii-borderRadius) !important;
 }
 
-.work-menu {
+.task-menu {
   visibility: hidden;
   opacity: 0;
 }
 
-.todo-body > div:hover .work-menu,
-.inprogress-body > div:hover .work-menu,
-.inreview-body > div:hover .work-menu,
-.done-body > div:hover .work-menu {
+.todo-body > div:hover .task-menu,
+.inprogress-body > div:hover .task-menu,
+.inreview-body > div:hover .task-menu,
+.done-body > div:hover .task-menu {
   visibility: visible;
   opacity: 0.5;
   transition: 0.3s;
 }
 
-.work-menu .icon {
+.task-menu .icon {
   background-color: #aaa;
 }
 
@@ -190,4 +191,15 @@
 
 .icon-close:hover {
   background-color: var(--colors-red);
+}
+
+.form-control {
+  border-radius: var(--radii-borderRadius);
+}
+
+.text-gradient-random {
+  font-weight: bold;
+  background: var(--linear-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

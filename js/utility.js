@@ -1,4 +1,15 @@
-export { setItem, getItem, generateNewId, formatDate, pageReload, debounce, generateHtmlString };
+export {
+  setItem,
+  getItem,
+  generateNewId,
+  formatDate,
+  pageReload,
+  debounce,
+  generateHtmlString,
+  showNewTask,
+  showEditTask,
+  hideTask,
+};
 
 function setItem(item, value) {
   localStorage.setItem(item, JSON.stringify(value));
@@ -60,18 +71,66 @@ function debounce(func, wait, immediate) {
   };
 }
 
-function generateHtmlString(work) {
+function generateHtmlString(task) {
   return `<div class="bg-white border mb-2 p-2 rounded position-relative task-item" style="cursor: pointer; min-height:66px"
-						data-id="${work['id']}">
-						<div class="fw-bold">${work['name']}</div>
-						<div>${work['description']}</div>
-						<div class="work-menu position-absolute top-0 end-0 d-flex">
-							<span class="icon rounded icon-todo" data-id="${work['id']}"><i class="bi bi-card-checklist"></i></span>
-							<span class="icon rounded icon-progress" data-id="${work['id']}"><i class="bi bi-card-heading"></i></span>
-							<span class="icon rounded icon-review" data-id="${work['id']}"><i class="bi bi-eye"></i></span>
-							<span class="icon rounded icon-done" data-id="${work['id']}"><i class="bi bi-check-square"></i></span>
-							<span class="icon rounded icon-edit" data-bs-toggle="modal" data-bs-target="#myModal" data-id="${work['id']}"><i class="bi bi-pencil"></i></span>
-							<span class="icon rounded icon-close" data-id="${work['id']}"><i class="bi bi-x-lg"></i></span>
+						data-id="${task['id']}">
+						<div class="fw-bold task-name">${task['name']}</div>
+						<div class="task-description">${task['description']}</div>
+						<div class="task-menu position-absolute top-0 end-0 d-flex">
+							<span class="icon rounded icon-todo" data-id="${task['id']}"><i class="bi bi-card-checklist"></i></span>
+							<span class="icon rounded icon-progress" data-id="${task['id']}"><i class="bi bi-card-heading"></i></span>
+							<span class="icon rounded icon-review" data-id="${task['id']}"><i class="bi bi-eye"></i></span>
+							<span class="icon rounded icon-done" data-id="${task['id']}"><i class="bi bi-check-square"></i></span>
+							<span class="icon rounded icon-close" data-id="${task['id']}"><i class="bi bi-x-lg"></i></span>
 						</div>
 					</div>`;
+}
+
+function showNewTask(task) {
+  let id = task['id'];
+  let status = task['status'];
+  let temp = `div.task-item[data-id="${id}"]`;
+  let htmlResult = `<div class="bg-white border mb-2 p-2 rounded position-relative task-item" style="cursor: pointer; 
+											min-height:66px; display:none" data-id="${task['id']}">
+											<div class="fw-bold task-name">${task['name']}</div>
+											<div class="task-description">${task['description']}</div>
+											<div class="task-menu position-absolute top-0 end-0 d-flex">
+												<span class="icon rounded icon-todo" data-id="${task['id']}"><i class="bi bi-card-checklist"></i></span>
+												<span class="icon rounded icon-progress" data-id="${task['id']}"><i class="bi bi-card-heading"></i></span>
+												<span class="icon rounded icon-review" data-id="${task['id']}"><i class="bi bi-eye"></i></span>
+												<span class="icon rounded icon-done" data-id="${task['id']}"><i class="bi bi-check-square"></i></span>
+												<span class="icon rounded icon-close" data-id="${task['id']}"><i class="bi bi-x-lg"></i></span>
+											</div>
+										</div>`;
+  switch (status) {
+    case 'todo':
+      $('.todo-body').append(htmlResult);
+      break;
+    case 'inprogress':
+      $('.inprogress-body').append(htmlResult);
+      break;
+    case 'inreview':
+      $('.inreview-body').append(htmlResult);
+      break;
+    case 'done':
+      $('.done-body').append(htmlResult);
+      break;
+    default:
+      break;
+  }
+  $(temp).fadeIn(300);
+}
+
+function showEditTask(task) {
+  let id = task['id'];
+  let temp = `div.task-item[data-id="${id}"]`;
+  $(temp).find('.task-name').text(task['name']);
+  $(temp).find('.task-description').html(task['description']);
+}
+
+function hideTask(task) {
+  let id = task['id'];
+  let temp = `div.task-item[data-id="${id}"]`;
+  $(temp).fadeOut(300);
+  $(temp).remove();
 }
